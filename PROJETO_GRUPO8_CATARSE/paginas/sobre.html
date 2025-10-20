@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CATARSE — Purify Yourself</title>
+    <link rel="stylesheet" href="/css/sobre.css">
+    <link rel="icon" href="/img/logo2-removebg-preview.png" type="image/png">
+</head>
+<body>
+<div class="accessibility-container" id="accessibility-container">
+    <button class="accessibility-btn" id="accessibility-main-btn" aria-label="Controles de acessibilidade">
+        <span>A</span>
+    </button>
+    <div class="accessibility-options" id="accessibility-options">
+        <button id="increase-font" aria-label="Aumentar tamanho da fonte">A+</button>
+        <button id="decrease-font" aria-label="Diminuir tamanho da fonte">A-</button>
+        <button id="reset-font" aria-label="Resetar tamanho da fonte">A⏱</button>
+        <button id="toggle-theme" aria-label="Alternar entre modo claro e escuro">🌓</button>
+    </div>
+</div>
+<nav>
+    <div class="nav-brand">
+        <a href="/index.html" class="logo-link">
+            <img src="/img/logo2-removebg-preview.png" alt="Logo Catarse" class="nav-logo">
+            <span class="brand-name">CATARSE</span>
+        </a>
+    </div>
+    
+    <!-- Botão do menu hamburguer -->
+    <div class="hamburger-menu" id-="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+    
+    <!-- Lista de navegação -->
+    <ul class="nav-list">
+        <li style="position: relative;">
+        <div id="user-icon" style="display:none;" class="user-icon">
+            <div id="logout-menu" class="logout-menu" style="display:none;">
+            <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+        </div>
+        </li>
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/paginas/sobre.html">Sobre</a></li>
+        <li><a href="/paginas/produtos.html">Produtos</a></li>
+        <li><a href="/paginas/login.html">Login</a></li>
+        <li><a href="https://www.instagram.com/catarsegarments?igsh=MWNvOW5hYXFmNm1hMg==" target="_blank">Instagram</a></li>
+        <li><button id="abrir-carrinho" class="cart-btn">🛒 <span id="contador-carrinho">0</span></button></li>
+    </ul>
+</nav>
+
+   <!-- Header com Vídeo -->
+<header class="video-hero">
+    <div class="video-container">
+        <video id="catarse-video" controls playsinline>
+            <source src="/img/22.09prestigiem a Arte. ☪️.mp4" type="video/mp4">
+            <source src="/img/22.09prestigiem a Arte. ☪️.webm" type="video/webm">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+        <div class="video-overlay">
+           
+            <div class="video-controls">
+                <button id="play-pause-btn" class="video-btn">▶</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <footer>
+        <p>CATARSE © 2024 — "purify yourself"</p>
+        <p>Siga-nos: <a href="https://www.instagram.com/catarsegarments?igsh=MWNvOW5hYXFmNm1hMg%3D%3D" target="_blank">@catarsegarments</a></p>
+    </footer>
+
+    <!-- Modal do Carrinho Padrão -->
+<div id="carrinho-modal" class="modal">
+    <span class="fechar" id="fechar-carrinho">&times;</span>
+    <h2>Seu Carrinho</h2>
+    <div id="carrinho-itens"></div>
+    <button id="limpar-carrinho">Limpar Carrinho</button>
+    <button id="finalizar-compra">Finalizar Compra</button>
+</div>
+<div id="toast" class="toast"></div>
+
+    <script src="/js/sobre.js"></script>
+    <script src="/js/carrinho.js"></script>
+</body>
+</html>
