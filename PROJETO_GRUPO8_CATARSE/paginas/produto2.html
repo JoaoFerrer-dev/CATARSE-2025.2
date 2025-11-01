@@ -141,11 +141,66 @@
             </div>
         </div>
     </main>
+    <!-- Seção de Avaliações -->
+    <section class="avaliacoes-container">
+        <div class="container">
+            <h2>Comentários</h2>
+            
+            <!-- Formulário de Avaliação -->
+            <div class="form-avaliacao">
+                <h3>Deixe seu comentário</h3>
+                <form id="form-avaliacao">
+                    <div class="avaliacao-estrelas">
+                        <label>Sua nota:</label>
+                        <div class="estrelas-avaliacao">
+                            <input type="radio" id="estrela5" name="estrelas" value="5">
+                            <label for="estrela5">★</label>
+                            <input type="radio" id="estrela4" name="estrelas" value="4">
+                            <label for="estrela4">★</label>
+                            <input type="radio" id="estrela3" name="estrelas" value="3">
+                            <label for="estrela3">★</label>
+                            <input type="radio" id="estrela2" name="estrelas" value="2">
+                            <label for="estrela2">★</label>
+                            <input type="radio" id="estrela1" name="estrelas" value="1">
+                            <label for="estrela1">★</label>
+                        </div>
+                    </div>
+                    
+                    <div class="campo-texto">
+                        <label for="comentario">Seu comentário:</label>
+                        <textarea id="comentario" name="comentario" placeholder="Conte sua experiência com o produto..." rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="campo-foto">
+                        <label for="foto-produto">Foto do produto recebido (opcional):</label>
+                        <input type="file" id="foto-produto" name="foto-produto" accept="image/*">
+                        <div class="preview-foto" id="preview-foto"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn-enviar-avaliacao">Enviar Avaliação</button>
+                </form>
+            </div>
+            
+            <!-- Lista de Avaliações -->
+            <div class="lista-avaliacoes" id="lista-avaliacoes">
+                <h3>Comentários</h3>
+                <div class="avaliacoes-vazia" id="avaliacoes-vazia">
+                    <p>Seja o primeiro a avaliar este produto!</p>
+                </div>
+                <!-- As avaliações serão inseridas aqui via JavaScript -->
+            </div>
+        </div>
+    </section>
 
     <footer>
-        <p>CATARSE © 2024 — "purify yourself"</p>
-        <p><a href="https://www.instagram.com/catarsegarments" target="_blank">@catarsegarments</a></p>
-    </footer>
+    <p>CATARSE © 2024 — "purify yourself"</p>
+    <p><a href="https://www.instagram.com/catarsegarments?igsh=MWNvOW5hYXFmNm1hMg==" target="_blank">@catarsegarments</a></p>
+    
+    <!-- Botão de Ajuda -->
+    <div class="footer-help">
+        <a href="/paginas/suporte.html" class="btn-ajuda">Precisa de Ajuda?</a>
+    </div>
+</footer>
 
     <!-- Modal do Carrinho Padrão -->
     <div id="carrinho-modal" class="modal">

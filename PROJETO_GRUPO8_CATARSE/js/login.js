@@ -242,7 +242,7 @@ document.getElementById('form-login').addEventListener('submit', function(e) {
     if (login === savedLogin && senha === savedSenha) {
         alert('Login realizado com sucesso!');
         localStorage.setItem('isLoggedIn', 'true'); // <-- Adicione esta linha
-        window.location.href = 'index.html';
+        window.location.href = '/index.html';
     } else {
         alert('Login ou senha incorretos!');
     }

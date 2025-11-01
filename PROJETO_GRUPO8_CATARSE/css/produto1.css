@@ -957,3 +957,583 @@ footer a:hover {
     background: #e63946;
     color: #fff;
 }
+
+/* ===== SEÇÃO DE AVALIAÇÕES ===== */
+.avaliacoes-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+}
+
+.avaliacoes-container h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--preto);
+}
+
+/* Formulário de Avaliação */
+.form-avaliacao {
+    background: var(--fundo-card);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+    border: 1px solid var(--borda);
+}
+
+.form-avaliacao h3 {
+    margin-bottom: 1.5rem;
+    color: var(--preto);
+}
+
+.avaliacao-estrelas {
+    margin-bottom: 1.5rem;
+}
+
+.avaliacao-estrelas label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.estrelas-avaliacao {
+    display: flex;
+    gap: 0.3rem;
+    direction: rtl;
+}
+
+.estrelas-avaliacao input {
+    display: none;
+}
+
+.estrelas-avaliacao label {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s;
+    margin-bottom: 0;
+}
+
+.estrelas-avaliacao label:hover,
+.estrelas-avaliacao label:hover ~ label,
+.estrelas-avaliacao input:checked ~ label {
+    color: #FFD700;
+}
+
+.campo-texto,
+.campo-foto {
+    margin-bottom: 1.5rem;
+}
+
+.campo-texto label,
+.campo-foto label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.campo-texto textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    background: var(--fundo-input);
+    color: var(--texto);
+    transition: border-color 0.3s;
+}
+
+.campo-texto textarea:focus {
+    outline: none;
+    border-color: var(--preto);
+}
+
+.campo-foto input[type="file"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: var(--fundo-input);
+    color: var(--texto);
+}
+
+.preview-foto {
+    margin-top: 1rem;
+    display: none;
+}
+
+.preview-foto img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    border: 1px solid var(--borda);
+}
+
+.btn-enviar-avaliacao {
+    background: var(--preto);
+    color: var(--branco);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-enviar-avaliacao:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Lista de Avaliações */
+.lista-avaliacoes h3 {
+    margin-bottom: 1.5rem;
+    color: var(--preto);
+}
+
+.avaliacoes-vazia {
+    text-align: center;
+    padding: 3rem;
+    color: var(--destaque);
+    font-style: italic;
+}
+
+.avaliacao-item {
+    background: var(--fundo-card);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--borda);
+}
+
+.avaliacao-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.avaliacao-usuario {
+    font-weight: 600;
+    color: var(--preto);
+}
+
+.avaliacao-data {
+    color: var(--destaque);
+    font-size: 0.9rem;
+}
+
+.avaliacao-estrelas-item {
+    color: #FFD700;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.avaliacao-comentario {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.avaliacao-foto {
+    margin-top: 1rem;
+}
+
+.avaliacao-foto img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    border: 1px solid var(--borda);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .avaliacoes-container {
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+    }
+    
+    .form-avaliacao {
+        padding: 1.5rem;
+    }
+    
+    .estrelas-avaliacao label {
+        font-size: 1.7rem;
+    }
+    
+    .avaliacao-item {
+        padding: 1rem;
+    }
+    
+    .avaliacao-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* Dark Mode para Avaliações */
+.dark-mode .form-avaliacao,
+.dark-mode .avaliacao-item {
+    background: var(--fundo-card);
+    border-color: var(--borda);
+}
+
+.dark-mode .form-avaliacao h3,
+.dark-mode .lista-avaliacoes h3,
+.dark-mode .avaliacao-usuario {
+    color: var(--texto);
+}
+
+/* ===== RESPONSIVIDADE DA SEÇÃO DE AVALIAÇÕES ===== */
+
+/* Tablets (768px para baixo) */
+@media (max-width: 768px) {
+    .avaliacoes-container {
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .avaliacoes-container h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-avaliacao {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .form-avaliacao h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .estrelas-avaliacao label {
+        font-size: 1.8rem;
+        padding: 0.2rem;
+    }
+    
+    .campo-texto textarea {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+    }
+    
+    .campo-foto input[type="file"] {
+        padding: 0.4rem;
+        font-size: 0.9rem;
+    }
+    
+    .preview-foto img {
+        max-width: 150px;
+        max-height: 150px;
+    }
+    
+    .btn-enviar-avaliacao {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+    
+    .avaliacao-item {
+        padding: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .avaliacao-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .avaliacao-usuario {
+        font-size: 1rem;
+    }
+    
+    .avaliacao-data {
+        font-size: 0.85rem;
+    }
+    
+    .avaliacao-estrelas-item {
+        font-size: 1rem;
+        margin: 0.8rem 0;
+    }
+    
+    .avaliacao-comentario {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    
+    .avaliacao-foto img {
+        max-width: 120px;
+        max-height: 120px;
+    }
+}
+
+/* Celulares (480px para baixo) */
+@media (max-width: 480px) {
+    .avaliacoes-container {
+        margin: 1.5rem auto;
+        padding: 0 0.8rem;
+    }
+    
+    .avaliacoes-container h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-avaliacao {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 8px;
+    }
+    
+    .form-avaliacao h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .avaliacao-estrelas label {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .estrelas-avaliacao {
+        gap: 0.1rem;
+        justify-content: center;
+    }
+    
+    .estrelas-avaliacao label {
+        font-size: 1.6rem;
+        padding: 0.1rem;
+    }
+    
+    .campo-texto,
+    .campo-foto {
+        margin-bottom: 1rem;
+    }
+    
+    .campo-texto label,
+    .campo-foto label {
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .campo-texto textarea {
+        padding: 0.7rem;
+        font-size: 0.9rem;
+        border-radius: 6px;
+        min-height: 80px;
+    }
+    
+    .campo-foto input[type="file"] {
+        padding: 0.3rem;
+        font-size: 0.85rem;
+        border-radius: 6px;
+    }
+    
+    .preview-foto img {
+        max-width: 120px;
+        max-height: 120px;
+    }
+    
+    .btn-enviar-avaliacao {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+    
+    .lista-avaliacoes h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .avaliacao-item {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+    }
+    
+    .avaliacao-header {
+        gap: 0.3rem;
+    }
+    
+    .avaliacao-usuario {
+        font-size: 0.95rem;
+    }
+    
+    .avaliacao-data {
+        font-size: 0.8rem;
+    }
+    
+    .avaliacao-estrelas-item {
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+    }
+    
+    .avaliacao-comentario {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .avaliacao-foto img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+    
+    .avaliacoes-vazia {
+        padding: 2rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Celulares muito pequenos (360px para baixo) */
+@media (max-width: 360px) {
+    .avaliacoes-container {
+        padding: 0 0.5rem;
+    }
+    
+    .avaliacoes-container h2 {
+        font-size: 1.3rem;
+    }
+    
+    .form-avaliacao {
+        padding: 0.8rem;
+    }
+    
+    .estrelas-avaliacao label {
+        font-size: 1.4rem;
+    }
+    
+    .campo-texto textarea {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .btn-enviar-avaliacao {
+        padding: 0.7rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .avaliacao-item {
+        padding: 0.8rem;
+    }
+    
+    .avaliacao-usuario {
+        font-size: 0.9rem;
+    }
+    
+    .avaliacao-comentario {
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== RESPONSIVIDADE PARA O FORMULÁRIO DE ESTRELAS ===== */
+@media (max-width: 320px) {
+    .estrelas-avaliacao {
+        gap: 0;
+    }
+    
+    .estrelas-avaliacao label {
+        font-size: 1.3rem;
+        transform: scale(0.9);
+    }
+}
+
+/* ===== AJUSTES ESPECÍFICOS PARA ORIENTAÇÃO LANDSCAPE ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .avaliacoes-container {
+        margin: 1rem auto;
+    }
+    
+    .form-avaliacao {
+        padding: 1rem;
+    }
+    
+    .campo-texto textarea {
+        min-height: 60px;
+        max-height: 80px;
+    }
+}
+
+/* ===== MELHORIAS DE ACESSIBILIDADE EM DISPOSITIVOS TÁTEIS ===== */
+@media (hover: none) and (pointer: coarse) {
+    .estrelas-avaliacao label {
+        padding: 0.5rem;
+        margin: 0 -0.2rem;
+    }
+    
+    .btn-enviar-avaliacao {
+        min-height: 44px; /* Tamanho mínimo para toque */
+    }
+    
+    .campo-foto input[type="file"] {
+        min-height: 44px;
+    }
+}
+
+/* ===== DARK MODE RESPONSIVO ===== */
+@media (max-width: 768px) {
+    .dark-mode .form-avaliacao,
+    .dark-mode .avaliacao-item {
+        background: var(--fundo-card);
+        border: 1px solid var(--borda);
+    }
+    
+    .dark-mode .campo-texto textarea,
+    .dark-mode .campo-foto input[type="file"] {
+        background: var(--fundo-input);
+        color: var(--texto);
+        border-color: var(--borda);
+    }
+}
+
+/* ===== ANIMAÇÕES SUAVES PARA MOBILE ===== */
+@media (max-width: 768px) {
+    .form-avaliacao,
+    .avaliacao-item {
+        transition: all 0.3s ease;
+    }
+    
+    .btn-enviar-avaliacao:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Botão de Remover Avaliação */
+.btn-remover-avaliacao {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 0.5rem;
+}
+
+.btn-remover-avaliacao:hover {
+    background: #c1121f;
+    transform: translateY(-1px);
+}
+
+/* Responsividade do botão de remover */
+@media (max-width: 768px) {
+    .btn-remover-avaliacao {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-remover-avaliacao {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}

@@ -329,3 +329,184 @@ function showToast(message, type = '') {
         toast.className = 'toast';
     }, 2500);
 }
+    // =================== SISTEMA DE AVALIAÇÕES ===================
+    const formAvaliacao = document.getElementById('form-avaliacao');
+    const listaAvaliacoes = document.getElementById('lista-avaliacoes');
+    const avaliacoesVazia = document.getElementById('avaliacoes-vazia');
+    const fotoProdutoInput = document.getElementById('foto-produto');
+    const previewFoto = document.getElementById('preview-foto');
+
+    // Carregar avaliações salvas
+    function carregarAvaliacoes() {
+        const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes_produto1')) || [];
+        exibirAvaliacoes(avaliacoes);
+    }
+
+    // Exibir avaliações na página
+    function exibirAvaliacoes(avaliacoes) {
+        if (avaliacoes.length === 0) {
+            avaliacoesVazia.style.display = 'block';
+            listaAvaliacoes.innerHTML = '<h3>Avaliações dos clientes</h3>';
+            listaAvaliacoes.appendChild(avaliacoesVazia);
+            return;
+        }
+
+        avaliacoesVazia.style.display = 'none';
+        const usuarioLogado = localStorage.getItem('user_login');
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+        const avaliacoesHTML = avaliacoes.map((avaliacao, index) => {
+            const podeRemover = isLoggedIn && avaliacao.usuario === usuarioLogado;
+            
+            return `
+                <div class="avaliacao-item" data-index="${index}">
+                    <div class="avaliacao-header">
+                        <div class="avaliacao-info">
+                            <span class="avaliacao-usuario">${avaliacao.usuario}</span>
+                            <span class="avaliacao-data">${avaliacao.data}</span>
+                        </div>
+                        ${podeRemover ? `
+                            <button class="btn-remover-avaliacao" onclick="removerAvaliacao(${index})">
+                                🗑️ Remover
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div class="avaliacao-estrelas-item">
+                        ${'★'.repeat(avaliacao.estrelas)}${'☆'.repeat(5 - avaliacao.estrelas)}
+                    </div>
+                    <p class="avaliacao-comentario">${avaliacao.comentario}</p>
+                    ${avaliacao.foto ? `
+                        <div class="avaliacao-foto">
+                            <img src="${avaliacao.foto}" alt="Foto do produto enviada pelo usuário">
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }).join('');
+
+        listaAvaliacoes.innerHTML = `
+            <h3>Avaliações dos clientes (${avaliacoes.length})</h3>
+            ${avaliacoesHTML}
+        `;
+    }
+
+    // Função para remover avaliação (deve ser global)
+    window.removerAvaliacao = function(index) {
+        if (!confirm('Tem certeza que deseja remover esta avaliação?')) {
+            return;
+        }
+
+        const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes_produto1')) || [];
+        
+        // Verificar se o usuário logado é o autor da avaliação
+        const usuarioLogado = localStorage.getItem('user_login');
+        const avaliacao = avaliacoes[index];
+        
+        if (avaliacao.usuario !== usuarioLogado) {
+            alert('Você só pode remover suas próprias avaliações.');
+            return;
+        }
+
+        // Remover a avaliação do array
+        avaliacoes.splice(index, 1);
+        
+        // Salvar no localStorage
+        localStorage.setItem('avaliacoes_produto1', JSON.stringify(avaliacoes));
+        
+        // Atualizar a exibição
+        exibirAvaliacoes(avaliacoes);
+        
+        // Mostrar confirmação
+        showToast('Avaliação removida com sucesso!', 'success');
+    };
+
+    // Preview da foto
+    if (fotoProdutoInput) {
+        fotoProdutoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewFoto.innerHTML = `<img src="${e.target.result}" alt="Preview da foto">`;
+                    previewFoto.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewFoto.style.display = 'none';
+                previewFoto.innerHTML = '';
+            }
+        });
+    }
+
+    // Enviar avaliação
+    if (formAvaliacao) {
+        formAvaliacao.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Verificar se usuário está logado - SE NÃO ESTIVER, REDIRECIONA PARA LOGIN
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                alert('Você precisa estar logado para enviar uma avaliação. Redirecionando para a página de login...');
+                // Redireciona para a página de login após 1 segundo
+                setTimeout(() => {
+                    window.location.href = '/paginas/login.html';
+                }, 1000);
+                return;
+            }
+
+            const estrelas = document.querySelector('input[name="estrelas"]:checked');
+            const comentario = document.getElementById('comentario').value.trim();
+            const fotoFile = fotoProdutoInput.files[0];
+
+            if (!estrelas) {
+                alert('Por favor, selecione uma nota com as estrelas.');
+                return;
+            }
+
+            if (!comentario) {
+                alert('Por favor, escreva um comentário.');
+                return;
+            }
+
+            // Criar objeto da avaliação
+            const avaliacao = {
+                usuario: localStorage.getItem('user_login'),
+                estrelas: parseInt(estrelas.value),
+                comentario: comentario,
+                data: new Date().toLocaleDateString('pt-BR'),
+                foto: null,
+                timestamp: new Date().getTime() // Adiciona timestamp único
+            };
+
+            // Processar foto se existir
+            if (fotoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avaliacao.foto = e.target.result;
+                    salvarAvaliacao(avaliacao);
+                };
+                reader.readAsDataURL(fotoFile);
+            } else {
+                salvarAvaliacao(avaliacao);
+            }
+        });
+    }
+
+    function salvarAvaliacao(avaliacao) {
+        const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes_produto1')) || [];
+        avaliacoes.unshift(avaliacao); // Adiciona no início
+        localStorage.setItem('avaliacoes_produto1', JSON.stringify(avaliacoes));
+        
+        // Atualizar exibição
+        exibirAvaliacoes(avaliacoes);
+        
+        // Limpar formulário
+        formAvaliacao.reset();
+        previewFoto.style.display = 'none';
+        previewFoto.innerHTML = '';
+        
+        // Mostrar confirmação
+        showToast('Avaliação enviada com sucesso!', 'success');
+    }
+
+    // Carregar avaliações quando a página carregar
+    carregarAvaliacoes();
