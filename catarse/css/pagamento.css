@@ -1,0 +1,77 @@
+/* Ajuste do botão de acessibilidade para não ter hover verde e seguir padrão da index */
+.accessibility-btn {
+    background: var(--destaque);
+    color: var(--branco);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+    z-index: 1003;
+}
+.accessibility-btn:hover {
+    background: var(--destaque); /* Remove hover verde, mantém cor base */
+    color: var(--branco);
+    transform: scale(1.1);
+}
+
+/* ===== BOTÃO DE AJUDA NO FOOTER ===== */
+.footer-help {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-ajuda {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--branco);
+    border: 1px solid var(--branco);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-ajuda:hover {
+    background: var(--branco);
+    color: var(--preto);
+    transform: translateY(-2px);
+}
+
+.btn-ajuda::before {
+    content: "❓";
+    font-size: 1rem;
+}
+
+/* Responsividade do botão de ajuda */
+@media (max-width: 768px) {
+    .btn-ajuda {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-help {
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+    
+    .btn-ajuda {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem 1rem;
+    }
+}

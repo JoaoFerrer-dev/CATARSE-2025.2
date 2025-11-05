@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CATARSE — Purify Yourself</title>
+    <link rel="stylesheet" href="/catarse/css/cadastro.css">
+    <link rel="icon" href="img/logo2-removebg-preview.png" type="image/png">
+</head>
+
+<body>
+    <div class="accessibility-container" id="accessibility-container">
+        <button class="accessibility-btn" id="accessibility-main-btn" aria-label="Controles de acessibilidade">
+            <span>A</span>
+        </button>
+        <div class="accessibility-options" id="accessibility-options">
+            <button id="increase-font" aria-label="Aumentar tamanho da fonte">A+</button>
+            <button id="decrease-font" aria-label="Diminuir tamanho da fonte">A-</button>
+            <button id="reset-font" aria-label="Resetar tamanho da fonte">A⏱️</button>
+            <button id="toggle-theme" aria-label="Alternar entre modo claro e escuro">🌓</button>
+        </div>
+    </div>
+    <nav>
+        <div class="nav-brand">
+            <a href="#home" class="logo-link">
+                <img src="img/logo2-removebg-preview.png" alt="Logo Catarse" class="nav-logo">
+                <span class="brand-name">CATARSE</span>
+            </a>
+        </div>
+
+        <!-- Botão do menu hamburguer -->
+        <div class="hamburger-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <!-- Lista de navegação -->
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="paginas/cadastro.html">Login</a></li>
+            <li><a href="https://www.instagram.com/catarsegarments?igsh=MWNvOW5hYXFmNm1hMg=="
+                    target="_blank">Instagram</a></li>
+            <li><button id="abrir-carrinho" class="cart-btn">🛒 <span id="contador-carrinho">0</span></button></li>
+        </ul>
+    </nav>
+
+    <header class="hero-cadastro">
+        <h1>PURIFIQUE-SE</h1>
+        <p class="slogan">Complete seu ritual de transformação.</p>
+    </header>
+
+    <main>
+    <form id="form-catarse" action="/catarse/php/usuarios.php" method="POST">
+
+            <div class="form-group">
+                <label for="nome">Nome Completo*</label>
+                <input type="text" id="nome" name="nome" minlength="15" maxlength="60" pattern="[A-Za-zÀ-ú\s]{15,60}"
+                    title="Mínimo 15 caracteres alfabéticos" required>
+            </div>
+
+
+            <div class="form-group">
+                <label for="nascimento">Data de Nascimento*</label>
+                <input type="date" id="nascimento" name="nascimento" required>
+            </div>
+
+
+            <div class="form-group">
+                <label>Sexo*</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="sexo" value="masculino" required> Masculino</label>
+                    <label><input type="radio" name="sexo" value="feminino"> Feminino</label>
+                    <label><input type="radio" name="sexo" value="outro"> Outro</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cpf">CPF*</label>
+                <input type="text" id="cpf" name="cpf" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                    title="Formato: 000.000.000-00" placeholder="000.000.000-00" required maxlength="14">
+            </div>
+
+
+            <div class="form-group">
+                <label for="celular">Telefone Celular*</label>
+                <input type="tel" id="celular" name="celular" pattern="\(\d{2}\)\s\d{5}-\d{4}"
+                    title="Formato: (21) 98765-4321" placeholder="(21) 98765-4321" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cep">CEP*</label>
+                <input type="text" id="cep" name="cep" pattern="\d{5}-?\d{3}" title="Formato: 00000-000"
+                    placeholder="00000-000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="endereco">Endereço Completo*</label>
+                <input type="text" id="endereco" name="endereco" required>
+            </div>
+            <div class="form-group">
+                <label for="bairro">Bairro*</label>
+                <input type="text" id="bairro" name="bairro" required>
+            </div>
+            <div class="form-group">
+                <label for="cidade">Cidade*</label>
+                <input type="text" id="cidade" name="cidade" required>
+            </div>
+            <div class="form-group">
+                <label for="uf">Estado*</label>
+                <input type="text" id="uf" name="uf" required>
+            </div>
+
+            <div class="form-group">
+                <label for="login">Login* (6 letras)</label>
+                <input type="text" id="login" name="login" pattern="[A-Za-z]{6}"
+                    title="Exatamente 6 caracteres alfabéticos" required>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha* (6 a 12 números)</label>
+                <input type="password" id="senha" name="senha" pattern="[0-9]{6,12}" minlength="6" maxlength="12"
+                    title="A senha deve ter entre 6 e 12 números" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmar-senha">Confirmar Senha*</label>
+                <input type="password" id="confirmar-senha" name="confirmar-senha" pattern="[0-9]{6,12}" minlength="6"
+                    maxlength="12" title="Deve ser igual à senha (6 a 12 números)" required>
+            </div>
+
+            <button type="submit" class="cta">Finalizar Cadastro</button>
+        </form>
+    </main>
+
+    <footer>
+    <p>CATARSE © 2024 — "purify yourself"</p>
+    <p><a href="https://www.instagram.com/catarsegarments?igsh=MWNvOW5hYXFmNm1hMg==" target="_blank">@catarsegarments</a></p>
+    
+    <!-- Botão de Ajuda -->
+    <div class="footer-help">
+        <a href="/paginas/suporte.html" class="btn-ajuda">Precisa de Ajuda?</a>
+    </div>
+</footer>
+
+    <!-- Carrinho Modal -->
+    <div id="carrinho-modal" class="modal">
+        <span class="fechar" id="fechar-carrinho">&times;</span>
+        <h2>Seu Carrinho</h2>
+        <div id="carrinho-itens"></div>
+        <button id="limpar-carrinho">Limpar Carrinho</button>
+        <button id="finalizar-compra">Finalizar Compra</button>
+    </div>
+    <div id="" class=""></div>
+</body>
+<script src="/catarse/js/cadastro.js"></script>
+<script src="/catarse/js/carrinho.js"></script>
+
+</html>
