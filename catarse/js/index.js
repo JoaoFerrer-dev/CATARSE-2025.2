@@ -1,12 +1,27 @@
-window.addEventListener('load', function() {
+// Esconde o preloader quando a página carregar; adiciona fallback para evitar que o overlay fique preso
+(function(){
     const preloader = document.getElementById('preloader');
-    setTimeout(() => {
-        preloader.style.opacity = '0';
-        setTimeout(() => {
+    function hidePreloader(delay = 500) {
+        if (!preloader) return;
+        try {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, delay);
+        } catch (e) {
+            // se alguma coisa falhar, remove rapidamente
             preloader.style.display = 'none';
-        }, 500); // tempo da transição de opacidade
-    }, 1000); // mantém o preloader visível por 2 segundos
-});
+        }
+    }
+
+    // Ao carregar:
+    window.addEventListener('load', function() {
+        setTimeout(() => hidePreloader(500), 1000);
+    });
+
+    // Fallback: garante que o preloader será escondido mesmo que 'load' não seja disparado ou haja erro
+    setTimeout(() => hidePreloader(300), 4000);
+})();
 
 const toggleTheme = document.getElementById('toggle-theme');
 const body = document.body;

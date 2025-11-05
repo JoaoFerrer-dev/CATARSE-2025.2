@@ -104,7 +104,7 @@ $uf = htmlspecialchars(trim($_POST['uf'] ?? ''));
         <h1>Cadastro realizado com sucesso</h1>
         <p>Olá <strong>{$safeNome}</strong>, seu cadastro foi registrado com sucesso.</p>
         <p>Agora você pode acessar a página de login para entrar na sua conta.</p>
-        <p><a class="button" href="/catarse/paginas/login.html">Ir para Login</a></p>
+    <p><a class="button" href="../paginas/login.html">Ir para Login</a></p>
     </div>
 </body>
 </html>

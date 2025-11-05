@@ -448,7 +448,8 @@ function showToast(message, type = '') {
                 alert('Você precisa estar logado para enviar uma avaliação. Redirecionando para a página de login...');
                 // Redireciona para a página de login após 1 segundo
                 setTimeout(() => {
-                    window.location.href = '/paginas/login.html';
+                    // redireciona para a página de login (relativa à pasta paginas)
+                    window.location.href = 'login.html';
                 }, 1000);
                 return;
             }

@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Redirecionar para login se não estiver logado
     function redirecionarParaLogin() {
         setTimeout(() => {
-            window.location.href = '/paginas/login.html';
+            // redireciona para a página de login relativa à pasta 'paginas'
+            window.location.href = 'login.html';
         }, 1000);
     }
 

@@ -283,12 +283,30 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Logout
+        // Logout (agora pede ao servidor para destruir a sessão)
         if (logoutBtn) {
             logoutBtn.onclick = function(e) {
                 e.stopPropagation();
-                localStorage.removeItem('isLoggedIn');
-                window.location.reload();
+                // Chama endpoint de logout no servidor
+                // usar caminho relativo, compatível com páginas dentro de /paginas/
+                fetch('../php/logout.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: ''
+                }).then(resp => resp.json()).then(data => {
+                    // Limpa estado local e recarrega
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('user_login');
+                    localStorage.removeItem('user_senha');
+                    window.location.reload();
+                }).catch(err => {
+                    // Mesmo em caso de erro, limpa local e recarrega para garantir logout do cliente
+                    console.error('Erro no logout:', err);
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('user_login');
+                    localStorage.removeItem('user_senha');
+                    window.location.reload();
+                });
             };
         }
     } else {

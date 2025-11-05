@@ -256,7 +256,7 @@ nav a {
     padding: 6rem 2rem;
     background: 
         linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-        url('/img/background1.JPEG') no-repeat center center;
+        url('../img/background1.JPEG') no-repeat center center;
     background-size: cover;
     color: white;
     min-height: 40vh;

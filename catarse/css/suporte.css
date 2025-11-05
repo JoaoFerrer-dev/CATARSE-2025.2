@@ -3,7 +3,7 @@
     text-align: center;
     padding: 4rem 2rem;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('/img/background1.JPEG') no-repeat center center;
+                url('../img/background1.JPEG') no-repeat center center;
     background-size: cover;
     color: white;
 }
