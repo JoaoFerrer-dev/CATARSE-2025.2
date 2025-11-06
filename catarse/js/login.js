@@ -229,24 +229,6 @@ accessibilityContainer.classList.remove('active');
 
 // Ajustar na redimensionamento
 window.addEventListener('resize', keepInWindow);
-// Validação de login
-document.getElementById('form-login').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const login = document.getElementById('login').value;
-    const senha = document.getElementById('senha').value;
-
-    const savedLogin = localStorage.getItem('user_login');
-    const savedSenha = localStorage.getItem('user_senha');
-
-    if (login === savedLogin && senha === savedSenha) {
-        alert('Login realizado com sucesso!');
-        localStorage.setItem('isLoggedIn', 'true'); // <-- Adicione esta linha
-        window.location.href = '/index.html';
-    } else {
-        alert('Login ou senha incorretos!');
-    }
-});
 
 window.addEventListener('DOMContentLoaded', function() {
     // Ícone do usuário e menu de logout
@@ -330,21 +312,21 @@ loginInput.addEventListener('input', function(e) {
     this.value = value;
 });
 
-// Validação de login e senha (senha: 6 a 12 números)
-document.getElementById('form-login').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const login = document.getElementById('login').value;
-    const senha = document.getElementById('senha').value;
-    const savedLogin = localStorage.getItem('user_login');
-    const savedSenha = localStorage.getItem('user_senha');
-    if (login === savedLogin && /^[0-9]{6,12}$/.test(senha) && senha === savedSenha) {
-        alert('Login realizado com sucesso!');
-        localStorage.setItem('isLoggedIn', 'true');
-        window.location.href = 'index.html';
-    } else {
-        alert('Login ou senha inválidos!');
-    }
-});
+// --- NOVO: toggle de visibilidade da senha ---
+const togglePasswordBtn = document.getElementById('toggle-password');
+const passwordInput = document.getElementById('senha');
+
+if (togglePasswordBtn && passwordInput) {
+    togglePasswordBtn.addEventListener('click', () => {
+        const showing = passwordInput.type === 'text';
+        passwordInput.type = showing ? 'password' : 'text';
+        // altera ícone/label acessível
+        togglePasswordBtn.textContent = showing ? '🐵' : '🙈';
+        togglePasswordBtn.setAttribute('aria-label', showing ? 'Mostrar senha' : 'Ocultar senha');
+        passwordInput.focus();
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // ====== ACESSIBILIDADE ======
@@ -354,4 +336,44 @@ document.addEventListener('DOMContentLoaded', function() {
         accessibilityContainer.style.left = '';
         accessibilityContainer.style.right = '20px';
     }
+});
+
+document.getElementById('form-login').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const login = form.querySelector('#login').value.trim();
+    const senha = form.querySelector('#senha').value;
+
+    // validação cliente (opcional, mantém formato)
+    if (!/^[A-Za-z]{6}$/.test(login)) {
+        showToast('Login deve ter exatamente 6 letras', 'error');
+        return;
+    }
+    if (!/^[0-9]{6,12}$/.test(senha)) {
+        showToast('Senha deve ter 6 a 12 números', 'error');
+        return;
+    }
+
+    // envia para php/login.php
+    fetch('../php/login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: `login=${encodeURIComponent(login)}&senha=${encodeURIComponent(senha)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // salva estado cliente mínimo e redireciona
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('user_login', data.user?.login || login);
+            showToast(data.message || 'Login realizado', 'success');
+            setTimeout(() => { window.location.href = '../index.html'; }, 600);
+        } else {
+            showToast(data.message || 'Login ou senha inválidos', 'error');
+        }
+    })
+    .catch(err => {
+        console.error('Erro no fetch de login:', err);
+        showToast('Erro de conexão com o servidor', 'error');
+    });
 });

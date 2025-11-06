@@ -1098,3 +1098,33 @@ button:hover, .user-icon:hover, .cart-btn:hover {
         padding: 0.7rem 1rem;
     }
 }
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    flex: 1;
+    padding-right: 48px; /* espaço para o botão */
+}
+
+.password-toggle {
+    position: absolute;
+    right: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--texto);
+    border-radius: 6px;
+}
+
+.password-toggle:focus {
+    outline: 2px solid var(--destaque);
+}

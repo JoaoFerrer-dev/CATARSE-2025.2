@@ -45,10 +45,20 @@ try {
     }
 
     $hash = $user['senha'];
-    // Verifica hash — se o campo estiver usando password_hash, use password_verify
-    if (password_verify($senha, $hash)) {
+    $passwordOk = false;
+
+    // Se parecer um hash gerado por password_hash (bcrypt/argon), use password_verify
+    if (is_string($hash) && preg_match('/^\$(2y|2a|argon2)/', $hash) && password_verify($senha, $hash)) {
+        $passwordOk = true;
+    } else {
+        // Suporte explícito a senha armazenada em texto puro (legacy)
+        if ($hash === $senha) {
+            $passwordOk = true;
+        }
+    }
+
+    if ($passwordOk) {
         // Autenticação bem-sucedida
-        // Regenerar id da sessão por segurança
         session_regenerate_id(true);
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_login'] = $user['login'];
@@ -58,6 +68,7 @@ try {
         exit();
     } else {
         // Senha incorreta
+        error_log("Falha de login: senha inválida para id={$user['id']} (login={$login})");
         echo json_encode(['success' => false, 'message' => 'Login ou senha incorretos.']);
         exit();
     }
@@ -71,5 +82,7 @@ try {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     exit();
 }
+
+
 
 ?>
