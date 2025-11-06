@@ -44,14 +44,23 @@ $uf = htmlspecialchars(trim($_POST['uf'] ?? ''));
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE login = ?");
     $stmt->execute([$login]);
     if ($stmt->fetchColumn() > 0) {
-        throw new Exception("Login já está em uso");
+        throw new Exception("Este login já está sendo usado por outro usuário. Escolha um login diferente.");
     }
 
     // Verificar se CPF já existe
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE cpf = ?");
     $stmt->execute([$cpf]);
     if ($stmt->fetchColumn() > 0) {
-        throw new Exception("CPF já cadastrado");
+        throw new Exception("Este CPF já está cadastrado no sistema. Verifique se você já possui uma conta ou entre em contato com o suporte.");
+    }
+
+    // Verificar se celular já existe (se não estiver vazio)
+    if (!empty($celular)) {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE celular = ?");
+        $stmt->execute([$celular]);
+        if ($stmt->fetchColumn() > 0) {
+            throw new Exception("Este número de celular já está cadastrado no sistema. Cada usuário deve ter um número único.");
+        }
     }
 
     // Hash da senha
@@ -114,15 +123,83 @@ HTML;
         exit();
 
 } catch (PDOException $e) {
-    // Erro de banco de dados
-    header('Content-Type: application/json');
-    echo json_encode(['erro' => 'Erro no banco de dados: ' . $e->getMessage()]);
+    // Erro de banco de dados - mostrar página HTML amigável
+    $errorMessage = "Ocorreu um erro interno. Tente novamente em alguns minutos.";
+    $html = <<<HTML
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <title>Erro no Cadastro</title>
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;color:#222;padding:30px}
+        .card{max-width:640px;margin:40px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+        .error{background:#ffe6e6;border:1px solid #ff9999;color:#cc0000;padding:15px;border-radius:5px;margin:10px 0}
+        a.button{display:inline-block;margin-top:12px;padding:10px 14px;background:#0b79d0;color:#fff;border-radius:4px;text-decoration:none}
+        .button-back{background:#666;margin-right:10px}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>❌ Erro no Cadastro</h1>
+        <div class="error">
+            <strong>Erro:</strong> {$errorMessage}
+        </div>
+        <p>Se o problema persistir, entre em contato com nosso suporte.</p>
+        <p>
+            <a class="button button-back" href="javascript:history.back()">← Voltar</a>
+            <a class="button" href="../paginas/suporte.html">Contatar Suporte</a>
+        </p>
+    </div>
+</body>
+</html>
+HTML;
+    echo $html;
     exit();
     
 } catch (Exception $e) {
-    // Outros erros (validações)
-    header('Content-Type: application/json');
-    echo json_encode(['erro' => $e->getMessage()]);
+    // Outros erros (validações) - mostrar página HTML amigável
+    $errorMessage = htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+    $html = <<<HTML
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <title>Erro no Cadastro</title>
+    <style>
+        body{font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;color:#222;padding:30px}
+        .card{max-width:640px;margin:40px auto;background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+        .error{background:#ffe6e6;border:1px solid #ff9999;color:#cc0000;padding:15px;border-radius:5px;margin:10px 0}
+        a.button{display:inline-block;margin-top:12px;padding:10px 14px;background:#0b79d0;color:#fff;border-radius:4px;text-decoration:none}
+        .button-back{background:#666;margin-right:10px}
+        .highlight{background:#fff3cd;border:1px solid #ffeaa7;color:#856404;padding:10px;border-radius:5px;margin:10px 0}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>⚠️ Problema no Cadastro</h1>
+        <div class="error">
+            <strong>Erro:</strong> {$errorMessage}
+        </div>
+        
+        <div class="highlight">
+            <strong>💡 Dicas:</strong>
+            <ul>
+                <li>Se o CPF já foi cadastrado, verifique se você já tem uma conta</li>
+                <li>Se o login já existe, tente uma combinação diferente de 6 letras</li>
+                <li>Certifique-se de que todos os campos obrigatórios estão preenchidos corretamente</li>
+            </ul>
+        </div>
+        
+        <p>
+            <a class="button button-back" href="javascript:history.back()">← Corrigir Dados</a>
+            <a class="button" href="../paginas/login.html">Já tenho conta</a>
+        </p>
+    </div>
+</body>
+</html>
+HTML;
+    echo $html;
     exit();
 }
 ?>

@@ -1,6 +1,5 @@
 <?php
 // logout.php — encerra a sessão do usuário
-header('Content-Type: application/json; charset=utf-8');
 session_start();
 
 try {
@@ -18,12 +17,13 @@ try {
     // Destrói a sessão
     session_destroy();
 
-    echo json_encode(['success' => true, 'message' => 'Logout realizado com sucesso.']);
+    // Redirecionar para a página inicial
+    header('Location: ../index.php');
     exit();
 
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Erro ao encerrar sessão: ' . $e->getMessage()]);
+    echo "<script>alert('Erro ao encerrar sessão: " . addslashes($e->getMessage()) . "'); window.location.href='../index.php';</script>";
     exit();
 }
 

@@ -1,6 +1,5 @@
 <?php
 // login.php — validação de login
-header('Content-Type: application/json; charset=utf-8');
 session_start();
 
 require_once __DIR__ . '/database.php';
@@ -8,8 +7,7 @@ require_once __DIR__ . '/database.php';
 try {
     // Apenas aceitar POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        http_response_code(405);
-        echo json_encode(['success' => false, 'message' => 'Método não permitido']);
+        echo "<script>alert('Método não permitido'); window.history.back();</script>";
         exit();
     }
 
@@ -17,19 +15,20 @@ try {
     $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
 
     // Validações básicas
-    if (!preg_match('/^[A-Za-z]{6}$/', $login)) {
-        echo json_encode(['success' => false, 'message' => 'Login inválido (deve conter exatamente 6 letras).']);
+    if (!preg_match('/^[A-Za-z]{1,6}$/', $login)) {
+        echo "<script>alert('Login inválido (deve conter de 1 a 6 letras).'); window.history.back();</script>";
         exit();
     }
 
     if (!preg_match('/^[0-9]{6,12}$/', $senha)) {
-        echo json_encode(['success' => false, 'message' => 'Senha inválida (6 a 12 números).']);
+        echo "<script>alert('Senha inválida (6 a 12 números).'); window.history.back();</script>";
         exit();
     }
 
     // Conectar ao banco
     $database = new Database();
     $pdo = $database->getConnection();
+    
     if (!$pdo) {
         throw new Exception('Erro ao conectar ao banco de dados');
     }
@@ -40,49 +39,40 @@ try {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-        echo json_encode(['success' => false, 'message' => 'Login ou senha incorretos.']);
+        echo "<script>alert('Login ou senha incorretos.'); window.history.back();</script>";
         exit();
     }
 
-    $hash = $user['senha'];
+    // Verificar senha (suporte a hash e texto puro)
     $passwordOk = false;
-
-    // Se parecer um hash gerado por password_hash (bcrypt/argon), use password_verify
-    if (is_string($hash) && preg_match('/^\$(2y|2a|argon2)/', $hash) && password_verify($senha, $hash)) {
-        $passwordOk = true;
+    $hash = $user['senha'];
+    
+    if (is_string($hash) && preg_match('/^\$(2y|2a|argon2)/', $hash)) {
+        // Senha com hash
+        $passwordOk = password_verify($senha, $hash);
     } else {
-        // Suporte explícito a senha armazenada em texto puro (legacy)
-        if ($hash === $senha) {
-            $passwordOk = true;
-        }
+        // Senha em texto puro (legacy)
+        $passwordOk = ($hash === $senha);
     }
 
     if ($passwordOk) {
-        // Autenticação bem-sucedida
+        // Login bem-sucedido
         session_regenerate_id(true);
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_login'] = $user['login'];
         $_SESSION['user_nome'] = $user['nome'];
 
-        echo json_encode(['success' => true, 'message' => 'Login realizado com sucesso.', 'user' => ['id' => $user['id'], 'nome' => $user['nome'], 'login' => $user['login']]]);
+        // Redirecionar para a página inicial
+        header('Location: ../index.php');
         exit();
     } else {
-        // Senha incorreta
-        error_log("Falha de login: senha inválida para id={$user['id']} (login={$login})");
-        echo json_encode(['success' => false, 'message' => 'Login ou senha incorretos.']);
+        echo "<script>alert('Login ou senha incorretos.'); window.history.back();</script>";
         exit();
     }
 
-} catch (PDOException $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Erro no banco de dados: ' . $e->getMessage()]);
-    exit();
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    echo "<script>alert('Erro no sistema: " . addslashes($e->getMessage()) . "'); window.history.back();</script>";
     exit();
 }
-
-
-
+?>
 ?>

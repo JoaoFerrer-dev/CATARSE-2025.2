@@ -235,52 +235,6 @@ window.addEventListener('DOMContentLoaded', function() {
         });
         window.addEventListener('resize', keepInWindow);
     }
-
-    // Ícone do usuário e menu de logout
-    const userIcon = document.getElementById('user-icon');
-    const logoutMenu = document.getElementById('logout-menu');
-    const logoutBtn = document.getElementById('logout-btn');
-
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-        const login = localStorage.getItem('user_login') || '';
-        if (login.length >= 2 && userIcon && logoutMenu) {
-            // Remove texto antigo das iniciais, se houver
-            Array.from(userIcon.childNodes).forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) userIcon.removeChild(node);
-            });
-            // Adiciona as iniciais ANTES do menu de logout
-            userIcon.insertBefore(document.createTextNode(login.substring(0, 2).toUpperCase()), logoutMenu);
-            userIcon.style.display = 'flex';
-        }
-
-        // Mostra/oculta o menu ao clicar no ícone
-        userIcon.onclick = function(e) {
-            e.stopPropagation();
-            if (logoutMenu.style.display === 'none' || logoutMenu.style.display === '') {
-                logoutMenu.style.display = 'block';
-            } else {
-                logoutMenu.style.display = 'none';
-            }
-        };
-
-        // Fecha o menu se clicar fora
-        document.addEventListener('click', function(e) {
-            if (logoutMenu && !userIcon.contains(e.target)) {
-                logoutMenu.style.display = 'none';
-            }
-        });
-
-        // Logout
-        if (logoutBtn) {
-            logoutBtn.onclick = function(e) {
-                e.stopPropagation();
-                localStorage.removeItem('isLoggedIn');
-                window.location.reload();
-            };
-        }
-    } else {
-        if (userIcon) userIcon.style.display = 'none';
-    }
 });
 function showToast(message, type = '') {
     const toast = document.getElementById('toast');
@@ -290,3 +244,26 @@ function showToast(message, type = '') {
         toast.className = 'toast';
     }, 2500);
 }
+
+// Menu de usuário
+document.addEventListener('DOMContentLoaded', function() {
+    const userIcon = document.getElementById('user-icon');
+    const userMenu = document.getElementById('user-menu');
+    
+    if (userIcon && userMenu) {
+        userIcon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userMenu.style.display = userMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // Fechar menu quando clicar fora
+        document.addEventListener('click', function() {
+            userMenu.style.display = 'none';
+        });
+        
+        // Prevenir fechamento quando clicar no menu
+        userMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+});
