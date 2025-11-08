@@ -1,0 +1,501 @@
+/* admin.css - Estilo para páginas administrativas seguindo o design CATARSE */
+
+:root {
+    --preto: #1a1a1a;
+    --branco: #f5f5f5;
+    --destaque: #666;
+    --fundo: #ffffff;
+    --texto: #1a1a1a;
+    --borda: #ddd;
+    --fundo-input: #f9f9f9;
+    --fundo-card: #f9f9f9;
+    --fundo-box: #fff;
+}
+
+.dark-mode {
+    --preto: #f5f5f5;
+    --branco: #181818;
+    --destaque: #222;
+    --fundo: #181818;
+    --texto: #f5f5f5;
+    --borda: #333;
+    --fundo-input: #232323;
+    --fundo-card: #232323;
+    --fundo-box: #232323;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica', sans-serif;
+    background-color: var(--fundo);
+    color: var(--texto);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header Administrativo */
+.admin-header {
+    background-color: var(--preto);
+    color: var(--branco);
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.admin-header h1 {
+    font-size: 24px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.admin-nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.admin-nav a {
+    color: var(--branco);
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.admin-nav a:hover {
+    background-color: var(--destaque);
+    color: var(--branco);
+}
+
+/* Container Principal */
+.admin-container {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 40px;
+}
+
+/* Cards de Estatísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background-color: var(--fundo-box);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--borda);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.stat-card h3 {
+    color: var(--destaque);
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: normal;
+}
+
+.stat-card .value {
+    font-size: 36px;
+    font-weight: normal;
+    color: var(--texto);
+    letter-spacing: 1px;
+}
+
+/* Seções Administrativas */
+.admin-section {
+    background-color: var(--fundo-box);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--borda);
+    margin-bottom: 30px;
+}
+
+.admin-section h2 {
+    color: var(--texto);
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--borda);
+    padding-bottom: 15px;
+}
+
+/* Botões */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: var(--preto);
+    color: var(--branco);
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: 'Helvetica', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: normal;
+}
+
+.btn:hover {
+    background-color: var(--destaque);
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-success {
+    background-color: var(--preto);
+}
+
+.btn-success:hover {
+    background-color: var(--destaque);
+}
+
+.btn-danger {
+    background-color: #1a1a1a;
+}
+
+.btn-danger:hover {
+    background-color: #333;
+}
+
+.btn-info {
+    background-color: var(--preto);
+}
+
+.btn-info:hover {
+    background-color: var(--destaque);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 12px;
+}
+
+/* Tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--borda);
+}
+
+th {
+    background-color: var(--fundo-card);
+    color: var(--texto);
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+tr:hover {
+    background-color: var(--fundo-card);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.badge-success {
+    background-color: var(--preto);
+    color: var(--branco);
+}
+
+.badge-danger {
+    background-color: var(--destaque);
+    color: var(--branco);
+}
+
+.badge-pendente {
+    background-color: var(--destaque);
+    color: var(--branco);
+}
+
+.badge-pago {
+    background-color: var(--preto);
+    color: var(--branco);
+}
+
+.badge-enviado {
+    background-color: var(--destaque);
+    color: var(--branco);
+}
+
+.badge-entregue {
+    background-color: var(--preto);
+    color: var(--branco);
+}
+
+.badge-cancelado {
+    background-color: #1a1a1a;
+    color: var(--branco);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    overflow: auto;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--fundo-box);
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 8px;
+    max-width: 700px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border: 1px solid var(--borda);
+}
+
+.modal-content h2 {
+    color: var(--texto);
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--borda);
+    padding-bottom: 15px;
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: normal;
+    cursor: pointer;
+    color: var(--texto);
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: var(--destaque);
+}
+
+/* Formulários */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: normal;
+    color: var(--texto);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Helvetica', sans-serif;
+    background-color: var(--fundo-input);
+    color: var(--texto);
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--destaque);
+    background-color: var(--fundo-box);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Mensagens */
+#mensagem,
+.alert {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    display: none;
+    border: 1px solid;
+}
+
+.mensagem-success,
+.alert-success {
+    background-color: var(--fundo-card);
+    color: var(--texto);
+    border-color: var(--borda);
+    display: block;
+}
+
+.mensagem-error,
+.alert-danger {
+    background-color: var(--fundo-card);
+    color: var(--texto);
+    border-color: var(--borda);
+    display: block;
+}
+
+/* Imagens de Produto */
+.produto-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--borda);
+}
+
+/* Links */
+a {
+    color: var(--texto);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--destaque);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .admin-header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .admin-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .admin-container {
+        padding: 0 20px;
+    }
+    
+    .admin-section {
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    table {
+        font-size: 12px;
+    }
+    
+    th, td {
+        padding: 10px 8px;
+    }
+}
+
+/* Estilo para página de login admin */
+.admin-login-box {
+    background-color: var(--fundo-box);
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    max-width: 450px;
+    width: 100%;
+    border: 1px solid var(--borda);
+}
+
+.admin-login-box h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: var(--texto);
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 24px;
+}
+
+.admin-badge {
+    display: inline-block;
+    background-color: var(--preto);
+    color: var(--branco);
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+/* Ações rápidas */
+.admin-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* Texto de ajuda */
+.admin-help-text {
+    color: var(--destaque);
+    font-size: 12px;
+    margin-top: 10px;
+    font-style: italic;
+}
+
