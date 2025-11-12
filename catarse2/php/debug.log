@@ -1,0 +1,9 @@
+[2025-11-10 21:12:43] check_auth called
+Request URI: /catarse2/php/check_auth.php
+Remote Addr: ::1
+Session ID: q90g06nhvlmpv9b2ir5rgofr7c
+Authenticated: 1
+Session keys: carrinho,frete,admin_id,admin_login,admin_nome,admin_nivel,is_admin,user_id,user_login,user_nome
+Cookies: rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX1%2B2r15GzbnDzTqit2pYMBhdkmyWsHPGCtU%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX1%2Be86jaYVS7J5sBIiAdKnOkzv3cX3bKtNo%3D; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX19bJ5XpR0mQamvKhu%2FVNTBefbsgrplwlPgRd9a3deAXo2mcCOMeQ9yh9Tk6gzCepKHbzSCigNP6Pg%3D%3D; rl_user_id=RudderEncrypt%3AU2FsdGVkX19XKkGOXRHB8DHz2NIsUeySP6NCY0w2xdVnCWfRW6L3lnWA3OZtbd43FGXQq9cgDBER%2B5%2FHBT3gFHZ21vPKNkoI2pzIekV6NNgah4QQbBk8okPgdMhWR8SfuXEHiv4erA9eLDw0LEz6fRP6c7Mi%2FPfDT%2FWSkUklFG0%3D; rl_trait=RudderEncrypt%3AU2FsdGVkX1%2BnlSEjpy8LX%2FDTX0edIB3for5A4enU5fO5zqEvHw87PA1fjKiWN1rkQs6Z6hyAsmSkVK4C9ztTp%2BAi69Ho9Cp49ovxNcOHxiRth6WxbT%2BVTegDcwCqand8Sq49bqWMqNI5Ww602bEiUw%3D%3D; rl_session=RudderEncrypt%3AU2FsdGVkX19Bv%2B5Yke9xaOL0CtMCh%2Bx09eBSANDhxAncy2krO3%2FTJ4hboSixljBt9Yi4M6Mz9Kjq%2BhSDZ6iQzSeDsXbt9YShUo4BePPPJU9d8RWgW%2Bzs%2B4i607QXSSu5ost8iD3brhN0LMb1m%2FQHuQ%3D%3D; ph_phc_4URIAm1uYfJO7j8kWSe0J8lc8IqnstRLS7Jx8NcakHo_posthog=%7B%22distinct_id%22%3A%220473703e129f3ff5ee25afc86cd44603b1cb132f0f5cb901e469836b4a6d2d39%23ff346b76-c962-42ae-965e-33b778e71fe8%22%2C%22%24sesid%22%3A%5B1759075562640%2C%2201999112-f495-7d4b-b6e6-a492332cf95b%22%2C1759075562640%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22http%3A%2F%2Flocalhost%3A5678%2Fsetup%22%7D%7D; PHPSESSID=q90g06nhvlmpv9b2ir5rgofr7c
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 OPR/122.0.0.0
+----

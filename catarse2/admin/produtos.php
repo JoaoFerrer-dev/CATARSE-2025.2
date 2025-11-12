@@ -8,7 +8,6 @@ requireAdmin();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Produtos - CATARSE Admin</title>
-    <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
@@ -83,7 +82,24 @@ requireAdmin();
                 
                 <div class="form-group">
                     <label for="imagem">URL da Imagem *</label>
-                    <input type="text" id="imagem" name="imagem" required placeholder="../img/produto1.jpg">
+                    <input type="text" id="imagem" name="imagem" required placeholder="../img/produto1.jpg" oninput="atualizarPreviewImagem()">
+                    <small style="color: var(--destaque); font-size: 12px; display: block; margin-top: 5px;">
+                        Exemplos: ../img/produto1.jpg, ../img/camisa.jpg, ../img/produto2.jpg
+                    </small>
+                    
+                    <!-- Preview da imagem -->
+                    <div id="preview-imagem-container" style="margin-top: 15px; display: none;">
+                        <label style="font-size: 12px; color: var(--destaque); margin-bottom: 5px; display: block;">Preview:</label>
+                        <img id="preview-imagem" src="" alt="Preview" style="max-width: 200px; max-height: 200px; border: 1px solid var(--borda); border-radius: 4px; padding: 5px; background: var(--fundo-input);">
+                    </div>
+                    
+                    <!-- Lista de imagens disponíveis -->
+                    <div style="margin-top: 15px;">
+                        <label style="font-size: 12px; color: var(--destaque); margin-bottom: 5px; display: block;">Imagens disponíveis:</label>
+                        <div id="lista-imagens" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto; padding: 10px; background: var(--fundo-input); border-radius: 4px; border: 1px solid var(--borda);">
+                            <!-- Será preenchido via JavaScript -->
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -113,9 +129,198 @@ requireAdmin();
     </div>
 
     <script>
+        // Variáveis globais
         let produtos = [];
 
-        // Carregar produtos
+        // Lista de imagens disponíveis
+        const imagensDisponiveis = [
+            '../img/produto1.jpg',
+            '../img/produto2.jpg',
+            '../img/produto3.jpg',
+            '../img/produto4.jpg',
+            '../img/produto5.jpg',
+            '../img/camisa.jpg',
+            '../img/camisa2.jpg',
+            '../img/logo2-removebg-preview.png',
+            '../img/logo.jpg',
+            '../img/logo2.jpg',
+            '../img/back2.jpeg',
+            '../img/background1.JPEG',
+            '../img/background2.jpeg',
+            '../img/baixados (9).jpeg'
+        ];
+
+        // Função para mostrar mensagens (definida primeiro para evitar erros)
+        function mostrarMensagem(mensagem, tipo) {
+            try {
+                const msgDiv = document.getElementById('mensagem');
+                if (msgDiv) {
+                    msgDiv.textContent = mensagem;
+                    msgDiv.className = `mensagem-${tipo}`;
+                    msgDiv.style.display = 'block';
+                    setTimeout(() => {
+                        if (msgDiv) {
+                            msgDiv.style.display = 'none';
+                        }
+                    }, 5000);
+                }
+            } catch (error) {
+                console.error('Erro ao mostrar mensagem:', error);
+            }
+        }
+
+        // Função para atualizar preview da imagem
+        function atualizarPreviewImagem() {
+            const inputImagem = document.getElementById('imagem');
+            const previewContainer = document.getElementById('preview-imagem-container');
+            const previewImagem = document.getElementById('preview-imagem');
+            
+            if (inputImagem && inputImagem.value) {
+                previewImagem.src = inputImagem.value;
+                previewContainer.style.display = 'block';
+                
+                // Verificar se a imagem carregou
+                previewImagem.onerror = function() {
+                    previewImagem.alt = 'Imagem não encontrada';
+                    previewImagem.style.border = '2px solid red';
+                };
+                
+                previewImagem.onload = function() {
+                    previewImagem.style.border = '1px solid var(--borda)';
+                };
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        // Função para selecionar imagem da lista
+        function selecionarImagem(url) {
+            const inputImagem = document.getElementById('imagem');
+            if (inputImagem) {
+                inputImagem.value = url;
+                atualizarPreviewImagem();
+                
+                // Destacar a imagem selecionada
+                document.querySelectorAll('.imagem-miniatura').forEach(img => {
+                    img.style.border = '1px solid var(--borda)';
+                    if (img.dataset.url === url) {
+                        img.style.border = '2px solid var(--preto)';
+                    }
+                });
+            }
+        }
+
+        // Função para carregar lista de imagens
+        function carregarListaImagens() {
+            const listaImagens = document.getElementById('lista-imagens');
+            if (!listaImagens) return;
+
+            listaImagens.innerHTML = imagensDisponiveis.map(url => {
+                const nomeArquivo = url.split('/').pop();
+                return `
+                    <div style="cursor: pointer; text-align: center;" onclick="selecionarImagem('${url}')" title="${nomeArquivo}">
+                        <img src="${url}" 
+                             alt="${nomeArquivo}" 
+                             class="imagem-miniatura"
+                             data-url="${url}"
+                             style="width: 100%; height: 60px; object-fit: cover; border: 1px solid var(--borda); border-radius: 4px; cursor: pointer; transition: transform 0.2s;"
+                             onerror="this.src='../img/logo2-removebg-preview.png'"
+                             onmouseover="this.style.transform='scale(1.1)'"
+                             onmouseout="this.style.transform='scale(1)'">
+                        <small style="font-size: 10px; color: var(--destaque); display: block; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nomeArquivo}</small>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Função para abrir modal de novo produto
+        function abrirModalNovo() {
+            console.log('abrirModalNovo chamada');
+            try {
+                const modal = document.getElementById('modal-produto');
+                console.log('Modal encontrado:', modal);
+                
+                if (!modal) {
+                    console.error('Modal não encontrado no DOM');
+                    alert('Erro: Modal não encontrado. Verifique se a página carregou completamente.');
+                    return;
+                }
+
+                const form = document.getElementById('form-produto');
+                const titulo = document.getElementById('modal-titulo');
+                const produtoId = document.getElementById('produto-id');
+                
+                if (!form || !titulo || !produtoId) {
+                    console.error('Elementos do modal não encontrados:', { form, titulo, produtoId });
+                    alert('Erro ao abrir o modal. Alguns elementos não foram encontrados.');
+                    return;
+                }
+                
+                titulo.textContent = 'Novo Produto';
+                form.reset();
+                produtoId.value = '';
+                
+                // Limpar preview da imagem
+                const previewContainer = document.getElementById('preview-imagem-container');
+                if (previewContainer) {
+                    previewContainer.style.display = 'none';
+                }
+                
+                // Exibir o modal
+                modal.style.display = 'block';
+                
+                console.log('Modal aberto com sucesso');
+            } catch (error) {
+                console.error('Erro ao abrir modal:', error);
+                alert('Erro ao abrir o modal: ' + error.message);
+            }
+        }
+
+        // Função para fechar modal
+        function fecharModal() {
+            try {
+                const modal = document.getElementById('modal-produto');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Erro ao fechar modal:', error);
+            }
+        }
+
+        // Função para exibir produtos
+        function exibirProdutos() {
+            try {
+                const tbody = document.getElementById('produtos-tbody');
+                if (!tbody) return;
+
+                if (produtos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum produto cadastrado</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = produtos.map(produto => `
+                    <tr>
+                        <td>${produto.id}</td>
+                        <td><img src="${produto.imagem}" alt="${produto.nome}" class="produto-img" onerror="this.src='../img/logo2-removebg-preview.png'"></td>
+                        <td>${produto.nome}</td>
+                        <td>R$ ${parseFloat(produto.preco_original).toFixed(2).replace('.', ',')}</td>
+                        <td>${produto.preco_promocional ? 'R$ ' + parseFloat(produto.preco_promocional).toFixed(2).replace('.', ',') : '-'}</td>
+                        <td>${produto.desconto > 0 ? produto.desconto + '%' : '-'}</td>
+                        <td>${produto.estoque}</td>
+                        <td><span class="badge ${produto.ativo == 1 ? 'badge-success' : 'badge-danger'}">${produto.ativo == 1 ? 'Ativo' : 'Inativo'}</span></td>
+                        <td>
+                            <button class="btn btn-small" onclick="editarProduto(${produto.id})">Editar</button>
+                            <button class="btn btn-danger btn-small" onclick="deletarProduto(${produto.id})">Deletar</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Erro ao exibir produtos:', error);
+            }
+        }
+
+        // Função para carregar produtos
         async function carregarProdutos() {
             try {
                 const response = await fetch('../php/produtos_api.php');
@@ -124,7 +329,15 @@ requireAdmin();
                     throw new Error(`Erro HTTP: ${response.status}`);
                 }
                 
-                const data = await response.json();
+                const text = await response.text();
+                let data;
+                
+                try {
+                    data = JSON.parse(text);
+                } catch (parseError) {
+                    console.error('Resposta da API não é JSON válido:', text);
+                    throw new Error('Resposta inválida do servidor. Verifique se há erros PHP.');
+                }
                 
                 // Verificar se é um array ou objeto de erro
                 if (Array.isArray(data)) {
@@ -148,59 +361,47 @@ requireAdmin();
             }
         }
 
-        function exibirProdutos() {
-            const tbody = document.getElementById('produtos-tbody');
-            if (produtos.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center;">Nenhum produto cadastrado</td></tr>';
-                return;
-            }
-
-            tbody.innerHTML = produtos.map(produto => `
-                <tr>
-                    <td>${produto.id}</td>
-                    <td><img src="${produto.imagem}" alt="${produto.nome}" class="produto-img" onerror="this.src='../img/logo2-removebg-preview.png'"></td>
-                    <td>${produto.nome}</td>
-                    <td>R$ ${parseFloat(produto.preco_original).toFixed(2).replace('.', ',')}</td>
-                    <td>${produto.preco_promocional ? 'R$ ' + parseFloat(produto.preco_promocional).toFixed(2).replace('.', ',') : '-'}</td>
-                    <td>${produto.desconto > 0 ? produto.desconto + '%' : '-'}</td>
-                    <td>${produto.estoque}</td>
-                    <td><span class="badge ${produto.ativo == 1 ? 'badge-success' : 'badge-danger'}">${produto.ativo == 1 ? 'Ativo' : 'Inativo'}</span></td>
-                    <td>
-                        <button class="btn btn-small" onclick="editarProduto(${produto.id})">Editar</button>
-                        <button class="btn btn-danger btn-small" onclick="deletarProduto(${produto.id})">Deletar</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function abrirModalNovo() {
-            document.getElementById('modal-titulo').textContent = 'Novo Produto';
-            document.getElementById('form-produto').reset();
-            document.getElementById('produto-id').value = '';
-            document.getElementById('modal-produto').style.display = 'block';
-        }
-
+        // Função para editar produto
         function editarProduto(id) {
-            const produto = produtos.find(p => p.id == id);
-            if (!produto) return;
+            try {
+                const produto = produtos.find(p => p.id == id);
+                if (!produto) {
+                    alert('Produto não encontrado');
+                    return;
+                }
 
-            document.getElementById('modal-titulo').textContent = 'Editar Produto';
-            document.getElementById('produto-id').value = produto.id;
-            document.getElementById('nome').value = produto.nome;
-            document.getElementById('descricao').value = produto.descricao || '';
-            document.getElementById('preco_original').value = produto.preco_original;
-            document.getElementById('preco_promocional').value = produto.preco_promocional || '';
-            document.getElementById('imagem').value = produto.imagem;
-            document.getElementById('tamanhos_disponiveis').value = produto.tamanhos_disponiveis;
-            document.getElementById('estoque').value = produto.estoque;
-            document.getElementById('ativo').value = produto.ativo;
-            document.getElementById('modal-produto').style.display = 'block';
+                document.getElementById('modal-titulo').textContent = 'Editar Produto';
+                document.getElementById('produto-id').value = produto.id;
+                document.getElementById('nome').value = produto.nome || '';
+                document.getElementById('descricao').value = produto.descricao || '';
+                document.getElementById('preco_original').value = produto.preco_original || '';
+                document.getElementById('preco_promocional').value = produto.preco_promocional || '';
+                document.getElementById('imagem').value = produto.imagem || '';
+                document.getElementById('tamanhos_disponiveis').value = produto.tamanhos_disponiveis || 'P,M,G,GG';
+                document.getElementById('estoque').value = produto.estoque || 0;
+                document.getElementById('ativo').value = produto.ativo || 1;
+                
+                // Atualizar preview da imagem
+                atualizarPreviewImagem();
+                
+                // Destacar a imagem selecionada na lista
+                if (produto.imagem) {
+                    document.querySelectorAll('.imagem-miniatura').forEach(img => {
+                        img.style.border = '1px solid var(--borda)';
+                        if (img.dataset.url === produto.imagem) {
+                            img.style.border = '2px solid var(--preto)';
+                        }
+                    });
+                }
+                
+                document.getElementById('modal-produto').style.display = 'block';
+            } catch (error) {
+                console.error('Erro ao editar produto:', error);
+                alert('Erro ao editar produto: ' + error.message);
+            }
         }
 
-        function fecharModal() {
-            document.getElementById('modal-produto').style.display = 'none';
-        }
-
+        // Função para deletar produto
         async function deletarProduto(id) {
             if (!confirm('Tem certeza que deseja deletar este produto?')) return;
 
@@ -211,7 +412,16 @@ requireAdmin();
                     body: JSON.stringify({ id: id })
                 });
 
-                const data = await response.json();
+                const text = await response.text();
+                let data;
+                
+                try {
+                    data = JSON.parse(text);
+                } catch (parseError) {
+                    console.error('Resposta da API não é JSON válido:', text);
+                    throw new Error('Resposta inválida do servidor.');
+                }
+
                 if (data.success) {
                     mostrarMensagem('Produto deletado com sucesso!', 'success');
                     carregarProdutos();
@@ -219,72 +429,108 @@ requireAdmin();
                     mostrarMensagem(data.error || 'Erro ao deletar produto', 'error');
                 }
             } catch (error) {
+                console.error('Erro ao deletar produto:', error);
                 mostrarMensagem('Erro ao deletar produto: ' + error.message, 'error');
             }
         }
 
-        document.getElementById('form-produto').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const id = document.getElementById('produto-id').value;
-            const isEdit = id !== '';
-
-            const data = {
-                nome: formData.get('nome'),
-                descricao: formData.get('descricao'),
-                preco_original: formData.get('preco_original'),
-                preco_promocional: formData.get('preco_promocional') || null,
-                imagem: formData.get('imagem'),
-                tamanhos_disponiveis: formData.get('tamanhos_disponiveis'),
-                estoque: formData.get('estoque'),
-                ativo: formData.get('ativo')
-            };
-
-            if (isEdit) {
-                data.id = id;
+        // Inicialização quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM carregado');
+            
+            // Verificar se o modal existe
+            const modal = document.getElementById('modal-produto');
+            if (!modal) {
+                console.error('Modal não encontrado no DOM após carregamento');
+            } else {
+                console.log('Modal encontrado:', modal);
             }
 
-            try {
-                const response = await fetch('../php/produtos_api.php', {
-                    method: isEdit ? 'PUT' : 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+            // Adicionar event listener ao formulário
+            const form = document.getElementById('form-produto');
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(this);
+                    const id = document.getElementById('produto-id').value;
+                    const isEdit = id !== '';
+
+                    const data = {
+                        nome: formData.get('nome'),
+                        descricao: formData.get('descricao'),
+                        preco_original: formData.get('preco_original'),
+                        preco_promocional: formData.get('preco_promocional') || null,
+                        imagem: formData.get('imagem'),
+                        tamanhos_disponiveis: formData.get('tamanhos_disponiveis'),
+                        estoque: formData.get('estoque'),
+                        ativo: formData.get('ativo')
+                    };
+
+                    if (isEdit) {
+                        data.id = id;
+                    }
+
+                    try {
+                        const response = await fetch('../php/produtos_api.php', {
+                            method: isEdit ? 'PUT' : 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+
+                        const text = await response.text();
+                        let result;
+                        
+                        try {
+                            result = JSON.parse(text);
+                        } catch (parseError) {
+                            console.error('Resposta da API não é JSON válido:', text);
+                            throw new Error('Resposta inválida do servidor. Verifique se há erros PHP.');
+                        }
+                        
+                        if (result.success) {
+                            mostrarMensagem(isEdit ? 'Produto atualizado com sucesso!' : 'Produto criado com sucesso!', 'success');
+                            fecharModal();
+                            carregarProdutos();
+                        } else {
+                            mostrarMensagem(result.error || 'Erro ao salvar produto', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao salvar produto:', error);
+                        mostrarMensagem('Erro ao salvar produto: ' + error.message, 'error');
+                    }
                 });
-
-                const result = await response.json();
-                if (result.success) {
-                    mostrarMensagem(isEdit ? 'Produto atualizado com sucesso!' : 'Produto criado com sucesso!', 'success');
-                    fecharModal();
-                    carregarProdutos();
-                } else {
-                    mostrarMensagem(result.error || 'Erro ao salvar produto', 'error');
-                }
-            } catch (error) {
-                mostrarMensagem('Erro ao salvar produto: ' + error.message, 'error');
             }
+
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('modal-produto');
+                if (modal && event.target === modal) {
+                    fecharModal();
+                }
+            });
+
+            // Carregar lista de imagens
+            carregarListaImagens();
+            
+            // Adicionar listener para atualizar preview quando modal abrir
+            const inputImagem = document.getElementById('imagem');
+            if (inputImagem) {
+                inputImagem.addEventListener('input', atualizarPreviewImagem);
+            }
+            
+            // Carregar produtos
+            carregarProdutos();
         });
 
-        function mostrarMensagem(mensagem, tipo) {
-            const msgDiv = document.getElementById('mensagem');
-            msgDiv.textContent = mensagem;
-            msgDiv.className = `mensagem-${tipo}`;
-            msgDiv.style.display = 'block';
-            setTimeout(() => {
-                msgDiv.style.display = 'none';
-            }, 5000);
-        }
-
-        // Fechar modal ao clicar fora
-        window.onclick = function(event) {
-            const modal = document.getElementById('modal-produto');
-            if (event.target == modal) {
-                fecharModal();
-            }
-        }
-
-        // Carregar produtos ao iniciar
-        carregarProdutos();
+        // Garantir que as funções estejam disponíveis globalmente mesmo antes do DOMContentLoaded
+        window.abrirModalNovo = abrirModalNovo;
+        window.fecharModal = fecharModal;
+        window.editarProduto = editarProduto;
+        window.deletarProduto = deletarProduto;
+        window.atualizarPreviewImagem = atualizarPreviewImagem;
+        window.selecionarImagem = selecionarImagem;
+        window.carregarListaImagens = carregarListaImagens;
     </script>
 </body>
 </html>

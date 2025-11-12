@@ -4,7 +4,7 @@ class Database {
     private $host = 'localhost';
     private $db_name = 'catarse';
     private $username = 'root';
-    private $password = ''; // XAMPP default often uses an empty password for 'root'
+    private $password = '@Breporta125722'; // XAMPP default often uses an empty password for 'root'
     public $conn;
 
     public function getConnection() {

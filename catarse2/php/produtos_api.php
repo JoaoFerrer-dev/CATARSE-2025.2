@@ -1,14 +1,32 @@
 <?php
 // produtos_api.php - API REST para gerenciar produtos
+// Desabilitar exibição de erros para não quebrar o JSON
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+// Iniciar output buffering para capturar qualquer output não desejado
+ob_start();
+
 session_start();
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/admin_auth.php';
 
+// Função para verificar admin sem redirecionar (para API)
+function checkAdminAPI() {
+    if (!isAdmin()) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'error' => 'Acesso negado. Autenticação de administrador necessária.'
+        ]);
+        exit();
+    }
+}
+
 // Verificar se é admin (exceto para GET que pode ser público)
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-    requireAdmin();
+    checkAdminAPI();
 }
 
 try {
@@ -57,15 +75,22 @@ try {
             
         case 'POST':
             // Criar novo produto
-            $nome = trim($_POST['nome'] ?? '');
-            $descricao = trim($_POST['descricao'] ?? '');
-            $preco_original = floatval($_POST['preco_original'] ?? 0);
-            $preco_promocional = isset($_POST['preco_promocional']) && $_POST['preco_promocional'] !== '' ? floatval($_POST['preco_promocional']) : null;
-            $desconto = intval($_POST['desconto'] ?? 0);
-            $imagem = trim($_POST['imagem'] ?? '');
-            $tamanhos = trim($_POST['tamanhos_disponiveis'] ?? 'P,M,G,GG');
-            $estoque = intval($_POST['estoque'] ?? 0);
-            $ativo = isset($_POST['ativo']) ? intval($_POST['ativo']) : 1;
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+            
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+                throw new Exception('Dados JSON inválidos: ' . json_last_error_msg());
+            }
+            
+            $nome = trim($data['nome'] ?? '');
+            $descricao = trim($data['descricao'] ?? '');
+            $preco_original = floatval($data['preco_original'] ?? 0);
+            $preco_promocional = isset($data['preco_promocional']) && $data['preco_promocional'] !== '' ? floatval($data['preco_promocional']) : null;
+            $desconto = intval($data['desconto'] ?? 0);
+            $imagem = trim($data['imagem'] ?? '');
+            $tamanhos = trim($data['tamanhos_disponiveis'] ?? 'P,M,G,GG');
+            $estoque = intval($data['estoque'] ?? 0);
+            $ativo = isset($data['ativo']) ? intval($data['ativo']) : 1;
             
             // Validações
             if (empty($nome) || $preco_original <= 0 || empty($imagem)) {
@@ -105,7 +130,12 @@ try {
             
         case 'PUT':
             // Atualizar produto
-            $data = json_decode(file_get_contents('php://input'), true);
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+            
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+                throw new Exception('Dados JSON inválidos: ' . json_last_error_msg());
+            }
             
             $id = intval($data['id'] ?? 0);
             if (!$id) {
@@ -160,7 +190,13 @@ try {
             
         case 'DELETE':
             // Deletar produto
-            $data = json_decode(file_get_contents('php://input'), true);
+            $input = file_get_contents('php://input');
+            $data = json_decode($input, true);
+            
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
+                throw new Exception('Dados JSON inválidos: ' . json_last_error_msg());
+            }
+            
             $id = intval($data['id'] ?? 0);
             
             if (!$id) {
@@ -183,17 +219,34 @@ try {
 } catch (PDOException $e) {
     http_response_code(500);
     error_log("Erro PDO em produtos_api.php: " . $e->getMessage());
+    // Limpar qualquer output anterior
+    if (ob_get_length()) ob_clean();
     echo json_encode([
         'success' => false,
-        'error' => 'Erro de banco de dados. Verifique se a tabela produtos existe.'
+        'error' => 'Erro de banco de dados. Verifique se a tabela produtos existe.',
+        'details' => (ini_get('display_errors') ? $e->getMessage() : null)
     ]);
+    exit();
 } catch (Exception $e) {
     http_response_code(400);
     error_log("Erro em produtos_api.php: " . $e->getMessage());
+    // Limpar qualquer output anterior
+    if (ob_get_length()) ob_clean();
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage()
     ]);
+    exit();
+} catch (Error $e) {
+    http_response_code(500);
+    error_log("Erro fatal em produtos_api.php: " . $e->getMessage());
+    // Limpar qualquer output anterior
+    if (ob_get_length()) ob_clean();
+    echo json_encode([
+        'success' => false,
+        'error' => 'Erro interno do servidor. Verifique os logs para mais detalhes.'
+    ]);
+    exit();
 }
 ?>
 

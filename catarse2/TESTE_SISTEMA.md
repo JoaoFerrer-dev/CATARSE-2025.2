@@ -7,12 +7,12 @@
 #### Opção A: Usando o script PHP (Recomendado)
 1. Abra o navegador e acesse:
    ```
-   http://localhost/catarse/php/create_tables.php
+   http://localhost/catarse2/php/create_tables.php
    ```
 2. Você deve ver a mensagem: "Tabelas criadas com sucesso!"
 3. Clique no link "Criar Admin" ou acesse diretamente:
    ```
-   http://localhost/catarse/php/create_admin.php
+   http://localhost/catarse2/php/create_admin.php
    ```
 
 #### Opção B: Usando o arquivo SQL
