@@ -1,0 +1,761 @@
+:root {
+    --preto: #1a1a1a;
+    --branco: #f5f5f5;
+    --destaque: #666;
+    --fundo: #1A1A1A;
+    --texto: #1a1a1a;
+    --borda: #ddd;
+    --fundo-card: #f9f9f9;
+    --fundo-input: #f9f9f9;
+    --fundo-box: #fff;
+    --text-color: white;
+}
+
+.dark-mode {
+    --preto: #f5f5f5;
+    --branco: #181818;
+    --destaque: #222;
+    --fundo: #181818;
+    --texto: #f5f5f5;
+    --borda: #333;
+    --fundo-card: #232323;
+    --fundo-input: #232323;
+    --fundo-box: #232323;
+    --text-color: #f5f5f5;
+    --hover-underline: #f5f5f5;
+}
+
+body {
+        height: 100%;
+    font-family: 'Helvetica', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--fundo);
+    color: var(--texto);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.video-hero {
+    width: 100%;
+    height: 70vh; /* Um pouco menor */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--preto);
+    padding: 20px 0; /* Espaço em cima e embaixo */
+}
+
+.video-container {
+    width: 85%; /* Um pouco menor */
+    max-width: 1000px; /* Limite máximo menor */
+    height: auto;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+}
+
+/* Esconder controles nativos do navegador */
+.video-container video::-webkit-media-controls {
+    display: none !important;
+}
+
+.video-container video::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    pointer-events: none;
+}
+
+.video-overlay h1 {
+    font-weight: 300;
+    font-size: 3.5rem; /* Um pouco menor */
+    letter-spacing: 4px;
+    margin: 0;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    margin-bottom: 0.8rem;
+}
+
+.video-overlay .slogan {
+    font-style: italic;
+    font-size: 1.3rem; /* Um pouco menor */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    margin-bottom: 1.5rem;
+}
+
+/* ===== CONTROLES DO VÍDEO ===== */
+.video-controls {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    pointer-events: auto;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.video-controls.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.video-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.video-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+/* ===== NAVEGAÇÃO ===== */
+nav {
+    background-color: var(--preto);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    
+}
+
+nav a {
+    color: var(--branco);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    transition: opacity 0.3s;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+/* ===== ACESSIBILIDADE ===== */
+.accessibility-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    touch-action: none;
+}
+
+.accessibility-btn {
+    background: var(--destaque);
+    color: var(--branco);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: grab;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 1003;
+    user-select: none;
+}
+
+.accessibility-btn:active {
+    cursor: grabbing;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+.accessibility-options {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 10px;
+    border-radius: 20px;
+    margin-top: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.accessibility-options button {
+    background: var(--destaque);
+    color: var(--branco);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.accessibility-options button:hover {
+    transform: scale(1.1);
+}
+
+.accessibility-container.active .accessibility-options {
+    display: flex;
+}
+
+.user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #666;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    cursor: pointer;
+    position: relative;
+}
+
+.logout-menu {
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 0.5rem 1rem;
+    z-index: 999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logout-btn {
+    background: #666;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background: #e63946;
+    color: #fff;
+}
+
+
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--preto);
+    color: var(--branco);
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+footer a {
+    color: var(--branco);
+    text-decoration: underline;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+
+
+
+
+/* ===== ESTILOS EXISTENTES QUE PRECISAM SER MANTIDOS ===== */
+.hamburger-menu {
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    z-index: 1001;
+}
+
+.hamburger-menu .bar {
+    height: 3px;
+    width: 100%;
+    background-color: var(--branco);
+    transition: all 0.3s ease;
+}
+
+/* Quando o menu está ativo (aberto) */
+.hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+.nav-brand {
+    position: absolute;
+    left: 20px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.nav-logo {
+    height: 30px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.brand-name {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.hamburger-menu {
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    z-index: 1001;
+}
+
+.hamburger-menu .bar {
+    height: 3px;
+    width: 100%;
+    background-color: var(--branco);
+    transition: all 0.3s ease;
+}
+
+.cart-btn {
+    background: none;
+    border: none;
+    color: var(--branco);
+    font-size: 1.4rem;
+    cursor: pointer;
+    position: relative;
+}
+
+#contador-carrinho {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: red;
+    color: white;
+    font-size: 0.9rem;
+    padding: 3px 6px;
+    border-radius: 50%;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--fundo);
+    padding: 20px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+    border-radius: 8px;
+    width: 400px;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -45%);
+}
+
+/* Adicione aqui o restante do seu CSS existente que não coloquei acima */
+nav ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 5px 0;
+}
+
+nav ul li::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--text-color); /* Usando variável */
+    transition: width 0.5s ease;
+    background-color: white;
+    background-color: currentColor; 
+    opacity: 0.7; 
+    background-color: var(--hover-underline, white);
+}
+.dark-mode nav ul li::after {
+    background-color: black; /* Para dark mode */
+}
+
+
+nav ul li:hover::after {
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+        .hamburger-menu {
+        display: flex;
+
+    }
+    
+    .nav-list {
+        position: fixed;
+        top: -30px;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: #333232;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        padding-top: 80px;
+    }
+    
+    .nav-list.active {
+        right: 0;
+    }
+    
+    .nav-brand {
+        position: static;
+    }
+    
+    /* Garante que o menu fique por cima de tudo */
+    nav {
+        justify-content: space-between;
+    }
+    .video-container {
+        width: 95%;
+        max-width: 900px;
+    }
+    .video-overlay h1 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Telas até 900px */
+@media (max-width: 900px) {
+        .hamburger-menu {
+        display: flex;
+    }
+    
+    .nav-list {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: #333232;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        padding-top: 80px;
+    }
+    
+    .nav-list.active {
+        right: 0;
+    }
+    
+    .nav-brand {
+        position: static;
+    }
+    
+    /* Garante que o menu fique por cima de tudo */
+    nav {
+        justify-content: space-between;
+    }
+    .video-hero {
+        height: 50vh;
+        padding: 10px 0;
+    }
+    .video-container {
+        width: 98%;
+        max-width: 700px;
+    }
+    .video-overlay h1 {
+        font-size: 2rem;
+    }
+    nav ul {
+        gap: 1rem;
+    }
+    .nav-brand {
+        left: 10px;
+    }
+
+    nav li {
+        height: 17px;
+    }
+}
+
+/* Telas até 700px (tablets e celulares grandes) */
+@media (max-width: 700px) {
+    .video-hero {
+        height: 35vh;
+        padding: 5px 0;
+    }
+    .video-container {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+    }
+    .video-overlay h1 {
+        font-size: 1.3rem;
+    }
+    .video-overlay .slogan {
+        font-size: 1rem;
+    }
+    nav {
+        height: 50px;
+        padding: 0.5rem;
+    }
+    .nav-brand {
+        left: 5px;
+        font-size: 0.9rem;
+    }
+    .brand-name {
+        font-size: 0.9rem;
+    }
+    .accessibility-container {
+        top: 10px;
+        right: 10px;
+    }
+    footer {
+        padding: 1.2rem;
+        font-size: 0.7rem;
+    }
+}
+
+/* Menu hamburguer para mobile */
+@media (max-width: 600px) {
+        .hamburger-menu {
+        display: flex;
+    }
+    
+    .nav-list {
+        position: fixed;
+        top: -81px;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--preto);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        padding-top: 80px;
+    }
+    
+    .nav-list.active {
+        right: 0;
+    }
+    
+    .nav-brand {
+        position: static;
+    }
+    
+    /* Garante que o menu fique por cima de tudo */
+    nav {
+        justify-content: space-between;
+    }
+    .cart-btn {
+        font-size: 1.1rem;
+    }
+}
+
+/* Telas até 400px (celulares pequenos) */
+@media (max-width: 400px) {
+        .hamburger-menu {
+        display: flex;
+    }
+
+    .nav-list {
+        position: fixed;
+        top: -130px;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--preto);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        padding-top: 80px;
+    }
+
+    .nav-list.active {
+        right: 0;
+    }
+
+    .nav-brand {
+        position: static;
+    }
+
+    /* Garante que o menu fique por cima de tudo */
+    nav {
+        justify-content: space-between;
+    }
+}
+
+    .video-overlay h1 {
+        font-size: 1rem;
+    }
+    .video-overlay .slogan {
+        font-size: 0.8rem;
+    }
+    .accessibility-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    .accessibility-options button {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+    .modal {
+        width: 95vw;
+        padding: 10px;
+    }
+
+    /* ===== BOTÃO DE AJUDA NO FOOTER ===== */
+.footer-help {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-ajuda {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--branco);
+    border: 1px solid var(--branco);
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-ajuda:hover {
+    background: var(--branco);
+    color: var(--preto);
+    transform: translateY(-2px);
+}
+
+.btn-ajuda::before {
+    content: "❓";
+    font-size: 1rem;
+}
+
+/* Responsividade do botão de ajuda */
+@media (max-width: 768px) {
+    .btn-ajuda {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-help {
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+    
+    .btn-ajuda {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem 1rem;
+    }
+}

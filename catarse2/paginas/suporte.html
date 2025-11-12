@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte — CATARSE</title>
+    <link rel="stylesheet" href="../css/suporte.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="icon" href="../img/logo2-removebg-preview.png" type="image/png">
+</head>
+<body>
+    <div id="preloader">
+        <img src="../img/logo2-removebg-preview.png" alt="Carregando..." class="loader-img">
+    </div>
+
+    <div class="accessibility-container" id="accessibility-container">
+        <button class="accessibility-btn" id="accessibility-main-btn" aria-label="Controles de acessibilidade">
+            <span>A</span>
+        </button>
+        <div class="accessibility-options" id="accessibility-options">
+            <button id="increase-font" aria-label="Aumentar tamanho da fonte">A+</button>
+            <button id="decrease-font" aria-label="Diminuir tamanho da fonte">A-</button>
+            <button id="reset-font" aria-label="Resetar tamanho da fonte">A⏱️</button>
+            <button id="toggle-theme" aria-label="Alternar entre modo claro e escuro">🌓</button>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-brand">
+            <a href="../index.html" class="logo-link">
+                <img src="../img/logo2-removebg-preview.png" alt="Logo Catarse" class="nav-logo">
+                <span class="brand-name">CATARSE</span>
+            </a>
+        </div>
+
+        <div class="hamburger-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-list">
+            <li style="position: relative;">
+                <div id="user-icon" style="display:none;" class="user-icon">
+                    <div id="logout-menu" class="logout-menu" style="display:none;">
+                        <button id="logout-btn" class="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </li>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="suporte.html">Suporte</a></li>
+            <li><a href="https://www.instagram.com/catarsegarments?igsh=MWNvOW5hYXFmNm1hMg==" target="_blank">Instagram</a></li>
+            <li><button id="abrir-carrinho" class="cart-btn">🛒 <span id="contador-carrinho">0</span></button></li>
+        </ul>
+    </nav>
+
+    <header class="hero-suporte">
+        <div class="container">
+            <h1>Central de Suporte</h1>
+            <p class="slogan">Estamos aqui para ajudar você</p>
+        </div>
+    </header>
+
+    <main class="suporte-container">
+        <div class="container">
+            <div class="suporte-content">
+                <div class="suporte-info">
+                    <h2>Precisa de Ajuda?</h2>
+                    <p>Selecione o tipo de atendimento que você precisa e nos conte detalhes sobre sua solicitação.</p>
+                    
+                    <div class="contato-info">
+                        <h3>Outras formas de contato:</h3>
+                        <p>📧 Email: suporte@catarse.com</p>
+                        <p>📱 WhatsApp: (11) 99999-9999</p>
+                        <p>🕒 Horário de atendimento: Segunda a Sexta, 9h às 18h</p>
+                    </div>
+                </div>
+
+                <div class="suporte-form">
+                    <form id="form-suporte">
+                        <div class="form-group">
+                            <label for="tipo-solicitacao">Tipo de Solicitação *</label>
+                            <select id="tipo-solicitacao" name="tipo-solicitacao" required>
+                                <option value="">Selecione uma opção</option>
+                                <option value="devolucao">Devolução de Produto</option>
+                                <option value="cancelamento">Cancelamento de Pedido</option>
+                                <option value="problema">Problema com o Produto</option>
+                                <option value="duvida">Dúvida sobre Tamanho</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="numero-pedido">Número do Pedido (opcional)</label>
+                            <input type="text" id="numero-pedido" name="numero-pedido" placeholder="Ex: CAT20240001">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="produto">Produto (opcional)</label>
+                            <input type="text" id="produto" name="produto" placeholder="Nome do produto">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descricao">Descrição do Problema *</label>
+                            <textarea id="descricao" name="descricao" rows="6" placeholder="Descreva detalhadamente o problema ou sua solicitação..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fotos">Fotos (opcional)</label>
+                            <input type="file" id="fotos" name="fotos" accept="image/*" multiple>
+                            <small>Você pode selecionar até 3 fotos para nos ajudar a entender melhor</small>
+                            <div id="preview-fotos" class="preview-fotos"></div>
+                        </div>
+
+                        <button type="submit" class="btn-enviar-suporte">Enviar Solicitação</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Mensagem de confirmação (inicialmente oculta) -->
+            <div id="mensagem-confirmacao" class="mensagem-confirmacao" style="display: none;">
+                <div class="confirmacao-content">
+                    <div class="confirmacao-icon">✓</div>
+                    <h2>Solicitação Enviada com Sucesso!</h2>
+                    <p>Recebemos sua mensagem e nossa equipe entrará em contato em até 24 horas.</p>
+                    <p><strong>Número do protocolo: <span id="numero-protocolo"></span></strong></p>
+                    <button id="btn-nova-solicitacao" class="cta2">Nova Solicitação</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>CATARSE © 2024 — "purify yourself"</p>
+        <p><a href="https://www.instagram.com/catarsegarments?igsh=MWNvOW5hYXFmNm1hMg==" target="_blank">@catarsegarments</a></p>
+    </footer>
+
+    <!-- MODAL DO CARRINHO -->
+    <div id="carrinho-modal" class="modal">
+        <span class="fechar" id="fechar-carrinho">&times;</span>
+        <h2>Seu Carrinho</h2>
+        <div id="carrinho-itens"></div>
+        <button id="limpar-carrinho">Limpar Carrinho</button>
+        <button id="finalizar-compra">Finalizar Compra</button>
+    </div>
+
+    <!-- Toast para mensagens -->
+    <div id="toast" class="toast"></div>
+
+    <script src="../js/index.js"></script>
+    <script src="../js/carrinho.js"></script>
+    <script src="../js/suporte.js"></script>
+</body>
+</html>
